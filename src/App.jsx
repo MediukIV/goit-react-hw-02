@@ -25,17 +25,25 @@ function App() {
     window.localStorage.setItem("saved-clicks", JSON.stringify(clicks));
   }, [clicks]);
 
+  const positiveStatistics = Math.round(
+    ((clicks.good + clicks.neutral) / totalFeedback) * 100
+  );
+
   return (
     <>
       <Description />
       <Options updateFeedback={updateFeedback} totalFeedback={totalFeedback} />
-      {totalFeedback === 0 && <Notification />}
-      <Feedback
+      {totalFeedback > 0 ? (
+        <Feedback
         good={clicks.good}
         neutral={clicks.neutral}
         bad={clicks.bad}
         totalFeedback={totalFeedback}
-      />
+        positiveStatistics={positiveStatistics}
+        />
+      ) : (
+        <Notification />
+      )}
     </>
   )
 }
